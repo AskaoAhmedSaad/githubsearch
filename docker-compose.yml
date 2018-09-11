@@ -3,7 +3,7 @@ services:
   web: 
     image: nginx:1.11-alpine
     volumes:
-      - ./apps:/code
+      - ./app:/code
       - ./env/nginx/site.conf:/etc/nginx/conf.d/site.conf
       - ./env/cert:/certs
     ports:
