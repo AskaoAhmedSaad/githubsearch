@@ -1,0 +1,22 @@
+version: '3'
+services:
+  web: 
+    image: nginx:1.11-alpine
+    volumes:
+      - ./apps:/code
+      - ./env/nginx/site.conf:/etc/nginx/conf.d/site.conf
+      - ./env/cert:/certs
+    ports:
+      - "8888:80"
+      - "80:80"
+  php:
+    build: ./env/docker
+    volumes: 
+      - ./app:/code
+      - ./env/entrypoint:/entrypoint
+      - ./env/php/custom.ini:/usr/local/etc/php/conf.d/custom.ini
+    entrypoint: /entrypoint/entrypoint.sh
+    environment:
+      XDEBUG_CONFIG: remote_host=${HOST_IP}
+    extra_hosts:
+      - "githubsearch.dev:${HOST_IP}"
