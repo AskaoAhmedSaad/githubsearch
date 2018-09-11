@@ -1,4 +1,4 @@
-FROM php:7.2-fpm
+FROM php:7.1-fpm
 ENV DEBIAN_FRONTEND noninteractive
 RUN apt-get update && apt-get install -y \
         libfreetype6-dev \
@@ -44,8 +44,12 @@ RUN apt-get install -y \
 RUN curl -LsS https://codeception.com/codecept.phar -o /usr/local/bin/codecept
 RUN chmod a+x /usr/local/bin/codecept
 
+WORKDIR /code
+
+RUN chown -R www-data:www-data /code
+
 RUN usermod -u 1001 www-data
 RUN groupmod -g 1001 www-data
 USER www-data
 
-WORKDIR /code
+
