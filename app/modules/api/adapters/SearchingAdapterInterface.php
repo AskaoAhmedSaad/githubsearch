@@ -6,5 +6,7 @@ namespace app\modules\api\adapters;
 
 interface SearchingAdapterInterface
 {
-	public function getSearchingData(Array $query);
+	public function setQueryParams(Array $params);
+
+	public function search();
 }

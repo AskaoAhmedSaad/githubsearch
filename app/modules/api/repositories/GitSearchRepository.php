@@ -6,12 +6,15 @@ namespace app\modules\api\repositories;
 
 use Yii;
 use app\modules\api\adapters\SearchingAdapterInterface;
-use Exception;
+use app\modules\api\adapters\DataProvidorInterface;
 
 class GitSearchRepository implements SearchingRepositoryInterface
 {
     protected $searchingAdapter;
 
+    /**
+     * set the git searching adapter
+     * */
     public function setsearchingAdapter(SearchingAdapterInterface $searchingAdapter)
     {
         $this->searchingAdapter = $searchingAdapter;
@@ -23,41 +26,18 @@ class GitSearchRepository implements SearchingRepositoryInterface
      **/
     public function search(String $query)
     {
-        $params = ['query' => $query, 'sort' => Yii::$app->request->get('sort')];
-        $searchingData = $this->searchingAdapter->getSearchingData($params);
-        
-        return $this->getResponseFromSearchingData($searchingData);  
-    }
+        $params = [
+                    'q' => $query,
+                    'sort' => Yii::$app->request->get('sort'),
+                    'page' => Yii::$app->request->get('page'),
+                    'per_page' => Yii::$app->request->get('per_page'),
+                    'order' => Yii::$app->request->get('order')
+                ];
 
-    /**
-     * return the searching response array for the searching data
-     **/
-    protected function getResponseFromSearchingData(Array $searchingData)
-    {
-        $searchResult = [];
-        if (!isset($searchingData['items']))
-            throw new Exception("can't found search items from the data providor", 1);
-        
-        if ($searchingData['items']) {
-            foreach ($searchingData['items'] as $itemIndex => $item) {
-                $this->validateSearchingItem($item);
-                
-                $searchResult[$itemIndex]['owner_name'] = $item['repository']['owner']['login'];
-                $searchResult[$itemIndex]['repository_name'] = $item['repository']['full_name'];
-                $searchResult[$itemIndex]['file_name'] = $item['name'];
-            }
-        }
-        
-        return $searchResult;
-    }
+        $this->searchingAdapter->setQueryParams($params);
+        $this->searchingAdapter->search($params);
 
-    protected function validateSearchingItem(Array $searchingItem)
-    {
-        if (!isset($searchingItem['repository']['owner']['login']))
-            throw new Exception("can't found owner_name from the data providor", 1);
-        if (!isset($searchingItem['repository']['full_name']))
-            throw new Exception("can't found repository_name from the data providor", 1);
-        if (!isset($searchingItem['name']))
-            throw new Exception("can't found file_name from the data providor", 1);
+        return Yii::$app->paginatedResponse->getResponse($this->searchingAdapter);
+        
     }
 }

@@ -61,6 +61,10 @@ $config = [
         'githubApiClient' => [
             'class' => 'app\modules\api\apiClients\githubApiClient',
         ],
+        'paginatedResponse' => [
+            'class' => 'app\modules\api\components\responses\PaginatedResponse',
+        ],
+
     ],
     'params' => $params,
     'modules' => [
