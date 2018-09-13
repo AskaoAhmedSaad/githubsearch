@@ -10,6 +10,20 @@
 
 ```exit```
 
+<hr>
+
 ##### add this url to your machine hosts 
 
 ```githubsearch.dev```
+
+<hr>
+
+##### running the api test
+
+```codecept run api```
+
+<hr>
+
+##### running the unit test
+
+```codecept run unit```
