@@ -1,42 +1,73 @@
 <?php
+
 $params = require __DIR__ . '/params.php';
 $db = require __DIR__ . '/test_db.php';
 
-/**
- * Application configuration shared by all test types
- */
-return [
-    'id' => 'basic-tests',
+$config = [
+    'id' => 'basic',
     'basePath' => dirname(__DIR__),
+    'bootstrap' => ['log'],
     'aliases' => [
         '@bower' => '@vendor/bower-asset',
         '@npm'   => '@vendor/npm-asset',
     ],
-    'language' => 'en-US',
     'components' => [
-        'db' => $db,
-        'mailer' => [
-            'useFileTransport' => true,
+        'request' => [
+            // !!! insert a secret key in the following (if it is empty) - this is required by cookie validation
+            'cookieValidationKey' => '6TlmtHOxFUCu33FA27ZZeEl_WQmqcBxK',
         ],
-        'assetManager' => [
-            'basePath' => __DIR__ . '/../web/assets',
-        ],
-        'urlManager' => [
-            'showScriptName' => true,
+        'cache' => [
+            'class' => 'yii\caching\FileCache',
         ],
         'user' => [
             'identityClass' => 'app\models\User',
+            'enableAutoLogin' => true,
         ],
-        'request' => [
-            'cookieValidationKey' => 'test',
-            'enableCsrfValidation' => false,
-            // but if you absolutely need it set cookie domain to localhost
-            /*
-            'csrfCookie' => [
-                'domain' => 'localhost',
+        'errorHandler' => [
+            'errorAction' => 'site/error',
+        ],
+        'mailer' => [
+            'class' => 'yii\swiftmailer\Mailer',
+            // send all mails to a file by default. You have to set
+            // 'useFileTransport' to false and configure a transport
+            // for the mailer to send real emails.
+            'useFileTransport' => true,
+        ],
+        'log' => [
+            'traceLevel' => YII_DEBUG ? 3 : 0,
+            'targets' => [
+                [
+                    'class' => 'yii\log\FileTarget',
+                    'levels' => ['error', 'warning'],
+                ],
             ],
-            */
+        ],
+        'db' => $db,
+        
+        'urlManager' => [
+            'enablePrettyUrl' => true,
+            'enableStrictParsing' => false,
+            'showScriptName' => true,
+            'rules' => [
+                [
+                    'class' => 'yii\rest\UrlRule',
+                    'controller' => ['git' => 'api/git'],
+                    'extraPatterns' => [
+                        'GET search' => 'search'
+                    ]
+                ],
+            ],
+        ],
+        'githubApiClient' => [
+            'class' => 'app\modules\api\apiClients\githubApiClient',
         ],
     ],
     'params' => $params,
+    'modules' => [
+        'api' => [
+            'class' => 'app\modules\api\Module',
+        ],
+    ],
 ];
+
+return $config;
