@@ -20,7 +20,7 @@ class githubApiClient implements gitClientInterface
             [
                 'base_uri' => 'https://api.github.com',
                 'headers' => [
-                	'Authorization' => 'Bearer ' . Yii::$app->params['github_access_token']
+                	'Authorization' => 'Bearer ' . Yii::$app->request->get('access_token')
                 ],
                 'exceptions' => true
             ]

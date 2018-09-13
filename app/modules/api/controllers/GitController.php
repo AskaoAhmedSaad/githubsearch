@@ -19,6 +19,10 @@ class GitController extends Controller
         parent::__construct($id, $module, $config);
     }
 
+    /**
+     * search in git providor code
+     * @param String $q the search query
+     **/
     public function actionSearch(String $q)
     {
         try {
