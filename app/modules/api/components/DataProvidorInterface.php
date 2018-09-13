@@ -1,6 +1,6 @@
 <?php
 /**
-* interface any data providor
+* interface for any data providor
 **/
 namespace app\modules\api\components;
 
