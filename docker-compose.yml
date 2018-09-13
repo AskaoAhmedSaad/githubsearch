@@ -20,4 +20,3 @@ services:
       XDEBUG_CONFIG: remote_host=${HOST_IP}
     extra_hosts:
       - "githubsearch.dev:${HOST_IP}"
-      - "testgithubsearch.dev:${HOST_IP}"
