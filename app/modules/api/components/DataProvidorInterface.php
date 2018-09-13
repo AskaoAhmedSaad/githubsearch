@@ -1,7 +1,7 @@
 <?php
 /**
 * interface any data providor
-*/
+**/
 namespace app\modules\api\components;
 
 interface DataProvidorInterface
