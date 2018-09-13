@@ -14,10 +14,10 @@
 
 ```githubsearch.dev```
 
-###### running the api test
+##### running the api test
 
 ```codecept run api```
 
-###### running the unit test
+##### running the unit test
 
 ```codecept run unit```
