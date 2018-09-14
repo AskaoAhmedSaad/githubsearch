@@ -9,7 +9,7 @@ class PaginatedResponse implements ResponseInterface
 	public function getResponse($dataProvidor)
 	{
 		return [
-			"data" => $dataProvidor->getData(), 
+			"data" => $dataProvidor->getResponseData(), 
 			"meta" => [
 			    "pagination" => [
 			        "total" => $dataProvidor->getTotal(),
