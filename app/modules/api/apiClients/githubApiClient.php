@@ -26,7 +26,12 @@ class githubApiClient implements gitClientInterface
             ]
         );
 	}
-     
+    
+    /**
+     * search in github api
+     * @param Array $params github query params
+     * @return Array $responseContent response from github
+     * */ 
     public function search(Array $params)
     {
 		$queryParams = [];
@@ -42,7 +47,12 @@ class githubApiClient implements gitClientInterface
         return $responseContent;
     }
 
-    private function getTheErrorMessage($exceptionMessage)
+    /**
+     * get the error message from github api exception
+     * @param String exceptionMessage
+     * @return String errorMessage
+     * */ 
+    private function getTheErrorMessage(String $exceptionMessage)
     {
     	$pattern = '/"message":\s*"(.*)"/m';
     	preg_match($pattern, $exceptionMessage, $matches, PREG_OFFSET_CAPTURE);
