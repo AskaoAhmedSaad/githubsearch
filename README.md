@@ -10,20 +10,30 @@
 
 ```exit```
 
-<hr>
 
 ##### add this url to your machine hosts 
 
 ```githubsearch.dev```
 
-<hr>
+
 
 ##### running the api test
 
 ```codecept run api```
 
-<hr>
 
 ##### running the unit test
 
 ```codecept run unit```
+
+
+##### set you access token here from your github account in app/config/params.php
+
+```
+<?php
+
+return [
+    .......
+    'github_access_token' => '{{set you access token here from your github account}}',
+];
+```
