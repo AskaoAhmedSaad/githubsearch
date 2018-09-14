@@ -25,6 +25,9 @@ class GithubSearhingAdapter implements SearchingAdapterInterface, DataProvidorIn
         $this->apiClient = Yii::$app->githubApiClient;
     }
 
+    /**
+     * set the Query params and if not found set the default
+     * */
     public function setQueryParams(Array $params)
     {
         if (!isset($params['q'])) {
