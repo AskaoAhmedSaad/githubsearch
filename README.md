@@ -37,3 +37,9 @@ return [
     'github_access_token' => '{{set you access token here from your github account}}',
 ];
 ```
+
+##### test url
+
+```
+http://githubsearch.dev/api/git/search?q=addClass&page=1&per_page=5&sort=indexed&order=desc
+```
