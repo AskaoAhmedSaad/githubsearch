@@ -48,8 +48,8 @@ WORKDIR /code
 
 RUN chown -R www-data:www-data /code
 
-RUN usermod -u 1001 www-data
-RUN groupmod -g 1001 www-data
+RUN usermod -u 1000 www-data
+RUN groupmod -g 1000 www-data
 USER www-data
 
 

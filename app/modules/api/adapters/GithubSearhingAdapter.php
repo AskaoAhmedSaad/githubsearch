@@ -48,8 +48,8 @@ class GithubSearhingAdapter implements SearchingAdapterInterface, DataProvidorIn
             'per_page' => $this->perPage,
         ];
         
-        $this->searchData = $this->apiClient->search($queryParams);
-
+        $searchData = $this->apiClient->search($queryParams);
+        $this->setSearchData($searchData);
     }
 
     /**
@@ -90,6 +90,11 @@ class GithubSearhingAdapter implements SearchingAdapterInterface, DataProvidorIn
             throw new UnprocessableEntityHttpException("can't found file_name from the data providor", 1);
     }
 
+    public function setSearchData(Array $searchData)
+    {
+        $this->searchData = $searchData;
+    }
+
     public function getPage()
     {
         return $this->page;
@@ -98,6 +103,11 @@ class GithubSearhingAdapter implements SearchingAdapterInterface, DataProvidorIn
     public function getPerPage()
     {
         return $this->perPage;
+    }
+
+    public function getSort()
+    {
+        return $this->sort;
     }
 
     public function getTotal()

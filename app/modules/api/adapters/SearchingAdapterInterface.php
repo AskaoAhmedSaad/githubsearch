@@ -9,4 +9,6 @@ interface SearchingAdapterInterface
 	public function setQueryParams(Array $params);
 
 	public function search();
+
+	public function setSearchData(Array $searchData);
 }

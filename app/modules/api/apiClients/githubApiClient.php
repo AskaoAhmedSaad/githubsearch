@@ -49,7 +49,7 @@ class githubApiClient implements gitClientInterface
     	if (isset($matches[1][0])) {
     	    $errorMessage = $matches[1][0];
     	} else {
-    		$errorMessage = "something wrong happens in calling github api";
+    		$errorMessage = "something wrong happens in calling github api, try again in a view minutes";
     	}
 
     	return $errorMessage;

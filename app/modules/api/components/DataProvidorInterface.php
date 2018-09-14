@@ -12,5 +12,7 @@ interface DataProvidorInterface
 
 	public function getPerPage();
 
+	public function getSort();
+
 	public function getTotal();
 }
