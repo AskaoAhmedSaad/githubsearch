@@ -38,6 +38,9 @@ class GithubSearhingAdapter implements SearchingAdapterInterface, DataProvidorIn
         $this->perPage = isset($params['per_page']) && $params['per_page'] ? $params['per_page'] : 25;
     }
 
+    /**
+     * get the search data from github api
+     **/
     public function search()
     {
         $queryParams = [
