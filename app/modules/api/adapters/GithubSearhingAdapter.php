@@ -58,7 +58,7 @@ class GithubSearhingAdapter implements SearchingAdapterInterface, DataProvidorIn
     /**
      * get the needed fields for the github search response data
      **/
-    public function getData()
+    public function getResponseData()
     {
         $resultData = [];
         if (!isset($this->searchData['total_count']))
