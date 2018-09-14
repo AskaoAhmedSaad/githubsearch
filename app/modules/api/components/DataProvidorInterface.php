@@ -6,7 +6,7 @@ namespace app\modules\api\components;
 
 interface DataProvidorInterface
 {
-	public function getData();
+	public function getResponseData();
 
 	public function getPage();
 
