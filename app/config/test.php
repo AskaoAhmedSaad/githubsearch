@@ -61,6 +61,9 @@ $config = [
         'githubApiClient' => [
             'class' => 'app\modules\api\apiClients\githubApiClient',
         ],
+        'githubSearhingAdapter' => [
+            'class' => 'app\modules\api\adapters\GithubSearhingAdapter',
+        ],
         'paginatedResponse' => [
             'class' => 'app\modules\api\components\responses\PaginatedResponse',
         ],
