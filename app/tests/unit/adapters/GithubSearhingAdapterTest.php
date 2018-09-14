@@ -1,9 +1,9 @@
 <?php
-namespace adapter;
+namespace adapters;
 
+use Yii;
 use \Codeception\Util\Fixtures;
 use yii\codeception\TestCase;
-use app\modules\api\adapters\GithubSearhingAdapter;
 use Codeception\Specify;
 
 class GithubSearhingAdapterTest extends TestCase
@@ -16,14 +16,10 @@ class GithubSearhingAdapterTest extends TestCase
         Fixtures::add('search_data', $searchData);
     }
 
-    protected function _after()
-    {
-    }
-
     public function testDefaultQueryParams()
     {
         $this->specify("test the default query params value when no params passed");
-        $searchingAdapter = new GithubSearhingAdapter();
+        $searchingAdapter = Yii::$app->githubSearhingAdapter;
         $searchingAdapter->setQueryParams([
             'q' => 'addClass'
         ]);
@@ -35,7 +31,7 @@ class GithubSearhingAdapterTest extends TestCase
     public function testPassedQueryParams()
     {
         $this->specify("test the passed params");
-        $searchingAdapter = new GithubSearhingAdapter();
+        $searchingAdapter = Yii::$app->githubSearhingAdapter;
         $searchingAdapter->setQueryParams([
             'q' => 'addClass',
             'page' => 2,
@@ -50,7 +46,14 @@ class GithubSearhingAdapterTest extends TestCase
     public function testGettingTheNeededFieldsFromGithub()
     {
         $this->specify("test getting the needed fields from the search data returned from github");
-        $searchingAdapter = new GithubSearhingAdapter();
+        $searchingAdapter = Yii::$app->githubSearhingAdapter;
         $searchingAdapter->setSearchData(Fixtures::get('search_data'));
+        $responseData = $searchingAdapter->getResponseData();
+        
+        foreach ($responseData as $responseItem) {
+            $this->assertNotNull($responseItem['owner_name']);
+            $this->assertNotNull($responseItem['repository_name']);
+            $this->assertNotNull($responseItem['file_name']);
+        }
     }
 }
