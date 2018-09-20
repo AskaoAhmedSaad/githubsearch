@@ -4,7 +4,6 @@ namespace app\modules\api\controllers;
 
 use Yii;
 use yii\rest\Controller;
-use app\modules\api\adapters\SearchingAdapterInterface;
 use app\modules\api\repositories\SearchingRepositoryInterface;
 use Exception;
 
@@ -12,9 +11,10 @@ class GitController extends Controller
 {
     public $searchingRepository;
 
-    public function __construct($id, $module, SearchingRepositoryInterface $searchingRepository, SearchingAdapterInterface $searchingAdapter, $config = [])
+    public function __construct($id, $module, SearchingRepositoryInterface $searchingRepository, $config = [])
     {
         $this->searchingRepository = $searchingRepository;
+        $searchingAdapter = Yii::$container->get('app\modules\api\adapters\SearchingAdapterInterface');
         $this->searchingRepository->setsearchingAdapter($searchingAdapter);
         parent::__construct($id, $module, $config);
     }

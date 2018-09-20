@@ -22,14 +22,5 @@ class Module extends yii\base\Module
         parent::init();
         // initialize the module with the configuration loaded from config.php
 
-        Yii::$container->set('app\modules\api\adapters\SearchingAdapterInterface',
-            'app\modules\api\adapters\GithubSearhingAdapter');
-
-        Yii::$container->set('app\modules\api\components\DataProvidorInterface',
-            'app\modules\api\adapters\GithubSearhingAdapter');
-
-        Yii::$container->set('app\modules\api\repositories\SearchingRepositoryInterface',
-            'app\modules\api\repositories\GitSearchRepository');
-
     }
 }

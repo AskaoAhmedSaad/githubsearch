@@ -22,7 +22,7 @@ class GithubSearhingAdapter implements SearchingAdapterInterface, DataProvidorIn
 
     public function __construct()
     {
-        $this->apiClient = Yii::$app->githubApiClient;
+        $this->apiClient = Yii::$container->get('githubApiClient');
     }
 
     /**

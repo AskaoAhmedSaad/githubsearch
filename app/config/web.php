@@ -67,8 +67,8 @@ $config = [
         'paginatedResponse' => [
             'class' => 'app\modules\api\components\responses\PaginatedResponse',
         ],
-
     ],
+    'container' => require (__DIR__ . '/container_dependancies.php'),
     'params' => $params,
     'modules' => [
         'api' => [

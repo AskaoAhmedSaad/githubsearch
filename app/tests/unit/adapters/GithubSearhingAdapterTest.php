@@ -9,46 +9,50 @@ use Codeception\Specify;
 class GithubSearhingAdapterTest extends TestCase
 {
     use Specify;
+    public $searchingAdapter;
 
-    protected function _before()
+    protected function setUp()
     {
+        parent::setUp();
         $searchData = require( __DIR__ . '/../../fixtures/_data/githubResponse/search_data.php'); 
+        Yii::$container->set('GithubSearhingAdapter',
+            'app\modules\api\adapters\GithubSearhingAdapter');
         Fixtures::add('search_data', $searchData);
     }
 
     public function testDefaultQueryParams()
     {
         $this->specify("test the default query params value when no params passed");
-        $searchingAdapter = Yii::$app->githubSearhingAdapter;
-        $searchingAdapter->setQueryParams([
+        $this->searchingAdapter = Yii::$container->get('GithubSearhingAdapter');
+        $this->searchingAdapter->setQueryParams([
             'q' => 'addClass'
         ]);
-        $this->assertTrue($searchingAdapter->getPage() == 1);
-        $this->assertTrue($searchingAdapter->getPerPage() == 25);
-        $this->assertTrue($searchingAdapter->getSort() == 'score');
+        $this->assertTrue($this->searchingAdapter->getPage() == 1);
+        $this->assertTrue($this->searchingAdapter->getPerPage() == 25);
+        $this->assertTrue($this->searchingAdapter->getSort() == 'score');
     }
 
     public function testPassedQueryParams()
     {
         $this->specify("test the passed params");
-        $searchingAdapter = Yii::$app->githubSearhingAdapter;
-        $searchingAdapter->setQueryParams([
+        $this->searchingAdapter = Yii::$container->get('GithubSearhingAdapter');
+        $this->searchingAdapter->setQueryParams([
             'q' => 'addClass',
             'page' => 2,
             'per_page' => 5,
             'sort' => 'indexed',
         ]);
-        $this->assertTrue($searchingAdapter->getPage() == 2);
-        $this->assertTrue($searchingAdapter->getPerPage() == 5);
-        $this->assertTrue($searchingAdapter->getSort() == 'indexed');
+        $this->assertTrue($this->searchingAdapter->getPage() == 2);
+        $this->assertTrue($this->searchingAdapter->getPerPage() == 5);
+        $this->assertTrue($this->searchingAdapter->getSort() == 'indexed');
     }
 
     public function testGettingTheNeededFieldsFromGithub()
     {
         $this->specify("test getting the needed fields from the search data returned from github");
-        $searchingAdapter = Yii::$app->githubSearhingAdapter;
-        $searchingAdapter->setSearchData(Fixtures::get('search_data'));
-        $responseData = $searchingAdapter->getResponseData();
+        $this->searchingAdapter = Yii::$container->get('GithubSearhingAdapter');
+        $this->searchingAdapter->setSearchData(Fixtures::get('search_data'));
+        $responseData = $this->searchingAdapter->getResponseData();
         
         foreach ($responseData as $responseItem) {
             $this->assertNotNull($responseItem['owner_name']);

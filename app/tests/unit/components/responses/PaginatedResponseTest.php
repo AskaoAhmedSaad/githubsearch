@@ -10,19 +10,27 @@ class PaginatedResponseTest extends TestCase
 {
     use Specify;
 
+    protected function setUp()
+    {
+        parent::setUp();
+        
+        Yii::$container->set('DataProvidor',
+            'app\modules\api\adapters\GithubSearhingAdapter');
+    }
+
     public function testGettingPaginatedResponseForFivePerPage()
     {
         $this->specify("test getting paginated response for five per page");
-        $searchingAdapter = Yii::$app->githubSearhingAdapter;
-        $searchingAdapter->setQueryParams([
+        $dataProvidor = Yii::$container->get('DataProvidor');
+        $dataProvidor->setQueryParams([
             'q' => 'addClass',
             'page' => 2,
             'per_page' => 5,
             'sort' => 'indexed',
         ]);
-        $searchingAdapter->setSearchData(Fixtures::get('search_data'));
+        $dataProvidor->setSearchData(Fixtures::get('search_data'));
         
-        $paginatedResponse = Yii::$app->paginatedResponse->getResponse($searchingAdapter);
+        $paginatedResponse = Yii::$app->paginatedResponse->getResponse($dataProvidor);
         $paginatedResponse['data'];
         foreach ($paginatedResponse['data'] as $responseItem) {
             $this->assertNotNull($responseItem['owner_name']);
@@ -37,13 +45,13 @@ class PaginatedResponseTest extends TestCase
     public function testGettingPaginatedResponseWithNoParamsPassed()
     {
         $this->specify("test getting paginated response with no params passed");
-        $searchingAdapter = Yii::$app->githubSearhingAdapter;
-        $searchingAdapter->setQueryParams([
+        $dataProvidor = Yii::$container->get('DataProvidor');
+        $dataProvidor->setQueryParams([
             'q' => 'addClass',
         ]);
-        $searchingAdapter->setSearchData(Fixtures::get('search_data'));
+        $dataProvidor->setSearchData(Fixtures::get('search_data'));
         
-        $paginatedResponse = Yii::$app->paginatedResponse->getResponse($searchingAdapter);
+        $paginatedResponse = Yii::$app->paginatedResponse->getResponse($dataProvidor);
         $paginatedResponse['data'];
         foreach ($paginatedResponse['data'] as $responseItem) {
             $this->assertNotNull($responseItem['owner_name']);
