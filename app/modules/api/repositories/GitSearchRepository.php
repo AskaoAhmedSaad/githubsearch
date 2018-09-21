@@ -37,7 +37,8 @@ class GitSearchRepository implements SearchingRepositoryInterface
         $this->searchingAdapter->setQueryParams($params);
         $this->searchingAdapter->search($params);
 
-        return Yii::$app->paginatedResponse->getResponse($this->searchingAdapter);
+        $paginatedResponse = Yii::$container->get('paginatedResponse');
         
+        return $paginatedResponse->getResponse($this->searchingAdapter);
     }
 }

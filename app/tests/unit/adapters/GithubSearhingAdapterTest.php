@@ -15,15 +15,13 @@ class GithubSearhingAdapterTest extends TestCase
     {
         parent::setUp();
         $searchData = require( __DIR__ . '/../../fixtures/_data/githubResponse/search_data.php'); 
-        Yii::$container->set('GithubSearhingAdapter',
-            'app\modules\api\adapters\GithubSearhingAdapter');
+        $this->searchingAdapter = Yii::$container->get('app\modules\api\adapters\SearchingAdapterInterface');
         Fixtures::add('search_data', $searchData);
     }
 
     public function testDefaultQueryParams()
     {
         $this->specify("test the default query params value when no params passed");
-        $this->searchingAdapter = Yii::$container->get('GithubSearhingAdapter');
         $this->searchingAdapter->setQueryParams([
             'q' => 'addClass'
         ]);
@@ -35,7 +33,6 @@ class GithubSearhingAdapterTest extends TestCase
     public function testPassedQueryParams()
     {
         $this->specify("test the passed params");
-        $this->searchingAdapter = Yii::$container->get('GithubSearhingAdapter');
         $this->searchingAdapter->setQueryParams([
             'q' => 'addClass',
             'page' => 2,
@@ -50,7 +47,6 @@ class GithubSearhingAdapterTest extends TestCase
     public function testGettingTheNeededFieldsFromGithub()
     {
         $this->specify("test getting the needed fields from the search data returned from github");
-        $this->searchingAdapter = Yii::$container->get('GithubSearhingAdapter');
         $this->searchingAdapter->setSearchData(Fixtures::get('search_data'));
         $responseData = $this->searchingAdapter->getResponseData();
         

@@ -13,15 +13,12 @@ class PaginatedResponseTest extends TestCase
     protected function setUp()
     {
         parent::setUp();
-        
-        Yii::$container->set('DataProvidor',
-            'app\modules\api\adapters\GithubSearhingAdapter');
     }
 
     public function testGettingPaginatedResponseForFivePerPage()
     {
         $this->specify("test getting paginated response for five per page");
-        $dataProvidor = Yii::$container->get('DataProvidor');
+        $dataProvidor = Yii::$container->get('app\modules\api\components\DataProvidorInterface');
         $dataProvidor->setQueryParams([
             'q' => 'addClass',
             'page' => 2,
@@ -29,37 +26,35 @@ class PaginatedResponseTest extends TestCase
             'sort' => 'indexed',
         ]);
         $dataProvidor->setSearchData(Fixtures::get('search_data'));
-        
-        $paginatedResponse = Yii::$app->paginatedResponse->getResponse($dataProvidor);
-        $paginatedResponse['data'];
-        foreach ($paginatedResponse['data'] as $responseItem) {
+        $paginatedResponse = Yii::$container->get('paginatedResponse');
+        $response = $paginatedResponse->getResponse($dataProvidor);
+        foreach ($response['data'] as $responseItem) {
             $this->assertNotNull($responseItem['owner_name']);
             $this->assertNotNull($responseItem['repository_name']);
             $this->assertNotNull($responseItem['file_name']);
         }
-        $this->assertNotNull($paginatedResponse['meta']['pagination']);
-        $this->assertTrue($paginatedResponse['meta']['pagination']['per_page'] == 5);
-        $this->assertTrue($paginatedResponse['meta']['pagination']['current_page'] == 2);
+        $this->assertNotNull($response['meta']['pagination']);
+        $this->assertTrue($response['meta']['pagination']['per_page'] == 5);
+        $this->assertTrue($response['meta']['pagination']['current_page'] == 2);
     }
 
     public function testGettingPaginatedResponseWithNoParamsPassed()
     {
         $this->specify("test getting paginated response with no params passed");
-        $dataProvidor = Yii::$container->get('DataProvidor');
+        $dataProvidor = Yii::$container->get('app\modules\api\components\DataProvidorInterface');
         $dataProvidor->setQueryParams([
             'q' => 'addClass',
         ]);
-        $dataProvidor->setSearchData(Fixtures::get('search_data'));
-        
-        $paginatedResponse = Yii::$app->paginatedResponse->getResponse($dataProvidor);
-        $paginatedResponse['data'];
-        foreach ($paginatedResponse['data'] as $responseItem) {
+        $dataProvidor->setSearchData(Fixtures::get('search_data'));        
+        $paginatedResponse = Yii::$container->get('paginatedResponse');
+        $response = $paginatedResponse->getResponse($dataProvidor);
+        foreach ($response['data'] as $responseItem) {
             $this->assertNotNull($responseItem['owner_name']);
             $this->assertNotNull($responseItem['repository_name']);
             $this->assertNotNull($responseItem['file_name']);
         }
-        $this->assertNotNull($paginatedResponse['meta']['pagination']);
-        $this->assertTrue($paginatedResponse['meta']['pagination']['per_page'] == 25);
-        $this->assertTrue($paginatedResponse['meta']['pagination']['current_page'] == 1);
+        $this->assertNotNull($response['meta']['pagination']);
+        $this->assertTrue($response['meta']['pagination']['per_page'] == 25);
+        $this->assertTrue($response['meta']['pagination']['current_page'] == 1);
     }
 }

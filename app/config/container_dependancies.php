@@ -5,6 +5,9 @@ return [
 	    'githubApiClient' => [
 	           'class' =>  'app\modules\api\apiClients\githubApiClient'
 	       ],
+	    'paginatedResponse' => [
+	           'class' =>  'app\modules\api\components\responses\PaginatedResponse'
+	       ],
 	    'app\modules\api\adapters\SearchingAdapterInterface' => [
 	           'class' =>  'app\modules\api\adapters\GithubSearhingAdapter'
 	       ],
