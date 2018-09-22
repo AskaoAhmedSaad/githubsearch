@@ -23,10 +23,10 @@ class GitController extends Controller
      * search in git providor code
      * @param String $q the search query
      **/
-    public function actionSearch(String $q)
+    public function actionSearch()
     {
         try {
-            return $this->searchingRepository->search($q);
+            return $this->searchingRepository->search(Yii::$app->request->get());
          } 
          catch (Exception $e) {
             throw $e;
