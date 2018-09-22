@@ -19,7 +19,9 @@
         "yiisoft/yii2-bootstrap": "~2.0.0",
         "yiisoft/yii2-swiftmailer": "~2.0.0",
         "guzzlehttp/guzzle": "~6.0",
-        "codeception/specify": "^1.0"
+        "codeception/specify": "^1.0",
+        "illuminate/validation": "5.4.*",
+        "illuminate/translation": "5.4.*"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.0.0",

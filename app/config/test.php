@@ -59,7 +59,7 @@ $config = [
             ],
         ],
     ],
-    'container' => require (__DIR__ . '/container_dependancies.php'),
+    'container' => require (__DIR__ . '/container_dependencies.php'),
     'params' => $params,
     'modules' => [
         'api' => [
