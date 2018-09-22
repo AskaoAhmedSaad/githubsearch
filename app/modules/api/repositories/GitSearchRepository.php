@@ -11,6 +11,8 @@ use app\modules\api\adapters\DataProvidorInterface;
 class GitSearchRepository implements SearchingRepositoryInterface
 {
     protected $searchingAdapter;
+    protected $requestValidator;
+    protected $errorMessages;
 
     /**
      * set the git searching adapter
@@ -18,27 +20,38 @@ class GitSearchRepository implements SearchingRepositoryInterface
     public function setsearchingAdapter(SearchingAdapterInterface $searchingAdapter)
     {
         $this->searchingAdapter = $searchingAdapter;
+        $this->requestValidator = Yii::$container->get('gitSearchingRequestValidator');
     }
 
     /**
      * search using the provided git adapter
-     * @param SearchingAdapterInterface $searchingAdapter the adapter for chosen git providor
      **/
-    public function search(String $query)
+    public function search(Array $params)
     {
-        $params = [
-                    'q' => $query,
-                    'sort' => Yii::$app->request->get('sort'),
-                    'page' => Yii::$app->request->get('page'),
-                    'per_page' => Yii::$app->request->get('per_page'),
-                    'order' => Yii::$app->request->get('order')
-                ];
+        if ($this->isValidParams($params)) {
+            $this->searchingAdapter->setQueryParams($params);
+            $this->searchingAdapter->search($params);
+            $paginatedResponse = Yii::$container->get('paginatedResponse');
+            $paginatedResponse->setDataProvidor($this->searchingAdapter);
+            
+            return $paginatedResponse->getResponse();
+        }
+        Yii::$app->response->statusCode = 422;
+        $errorResponseClass = Yii::$container->get('errorResponse');
+        $errorResponseClass->setErrorData($this->errorMessages);
+        return $errorResponseClass->getResponse();
+    }
 
-        $this->searchingAdapter->setQueryParams($params);
-        $this->searchingAdapter->search($params);
+    protected function isValidParams(Array $params)
+    {
+        $valid = true;
+        $this->requestValidator->load($params, '');
+        $errorMessages = $this->requestValidator->getValidationErrors();
+        if ($errorMessages) {
+            $this->errorMessages = $errorMessages;        
+            $valid = false;
+        }
 
-        $paginatedResponse = Yii::$container->get('paginatedResponse');
-        
-        return $paginatedResponse->getResponse($this->searchingAdapter);
+        return $valid;
     }
 }
