@@ -10,5 +10,5 @@ interface SearchingRepositoryInterface
 {	
 	public function setsearchingAdapter(SearchingAdapterInterface $searchingAdapter);
 
-    public function search(String $query);
+    public function search(Array $params);
 }
