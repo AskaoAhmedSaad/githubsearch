@@ -27,7 +27,8 @@ class PaginatedResponseTest extends TestCase
         ]);
         $dataProvidor->setSearchData(Fixtures::get('search_data'));
         $paginatedResponse = Yii::$container->get('paginatedResponse');
-        $response = $paginatedResponse->getResponse($dataProvidor);
+        $paginatedResponse->setDataProvidor($dataProvidor);
+        $response = $paginatedResponse->getResponse();
         foreach ($response['data'] as $responseItem) {
             $this->assertNotNull($responseItem['owner_name']);
             $this->assertNotNull($responseItem['repository_name']);
@@ -47,7 +48,8 @@ class PaginatedResponseTest extends TestCase
         ]);
         $dataProvidor->setSearchData(Fixtures::get('search_data'));        
         $paginatedResponse = Yii::$container->get('paginatedResponse');
-        $response = $paginatedResponse->getResponse($dataProvidor);
+        $paginatedResponse->setDataProvidor($dataProvidor);
+        $response = $paginatedResponse->getResponse();
         foreach ($response['data'] as $responseItem) {
             $this->assertNotNull($responseItem['owner_name']);
             $this->assertNotNull($responseItem['repository_name']);
