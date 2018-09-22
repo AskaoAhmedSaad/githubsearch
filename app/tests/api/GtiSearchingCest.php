@@ -41,18 +41,14 @@ class GtiSearchingCest
     }
 
 
-    public function testNegativeSearching(ApiTester $I)
+    public function testNegativeSearchingWithValidationError(ApiTester $I)
     {
         $I->wantTo('test searching without q param');
         $I->sendGET('/api/git/search?page=1&per_page=5&sort=indexed&order=asc');
-        $I->seeResponseCodeIs(HttpCode::BAD_REQUEST); // 400
+        $I->seeResponseCodeIs(HttpCode::UNPROCESSABLE_ENTITY); // 422
         $I->seeResponseIsJson();
         $I->seeResponseContainsJson([
-            "name" => "Bad Request",
-            "message" => "Missing required parameters: q",
-            "code" => 0,
-            "status" => 400,
-            "type" => "yii\\web\\BadRequestHttpException"
+            "q" => ["The q field is required."]
         ]);
     }
 }
