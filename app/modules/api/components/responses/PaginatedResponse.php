@@ -6,16 +6,23 @@ namespace app\modules\api\components\responses;
 
 class PaginatedResponse implements ResponseInterface
 {
-	public function getResponse($dataProvidor)
+	protected $dataProvidor;
+
+	public function setDataProvidor($dataProvidor)
+	{
+		$this->dataProvidor = $dataProvidor;
+	}
+
+	public function getResponse()
 	{
 		return [
-			"data" => $dataProvidor->getResponseData(), 
+			"data" => $this->dataProvidor->getResponseData(), 
 			"meta" => [
 			    "pagination" => [
-			        "total" => $dataProvidor->getTotal(),
-			        "per_page" => $dataProvidor->getPerPage(),
-			        "current_page" => $dataProvidor->getPage(),
-			        "total_pages" => ceil($dataProvidor->getTotal() / $dataProvidor->getPerPage()),
+			        "total" => $this->dataProvidor->getTotal(),
+			        "per_page" => $this->dataProvidor->getPerPage(),
+			        "current_page" => $this->dataProvidor->getPage(),
+			        "total_pages" => ceil($this->dataProvidor->getTotal() / $this->dataProvidor->getPerPage()),
 			    ]
 			]
 		];

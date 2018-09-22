@@ -6,5 +6,5 @@ namespace app\modules\api\components\responses;
 
 interface ResponseInterface
 {
-	public function getResponse($dataProvidor);
+	public function getResponse();
 }
