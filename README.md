@@ -27,15 +27,13 @@
 ```codecept run unit```
 
 
-##### set you access token here from your github account in app/config/params.php
+##### set you access token here from your github account in app/config/env.php
 
 ```
 <?php
 
-return [
-    .......
-    'github_access_token' => '{{set you access token here from your github account}}',
-];
+defined('GITHUB_ACCESS_TOKEN') or define('GITHUB_ACCESS_TOKEN', '{{set you access token here from your github account}}');
+
 ```
 
 ##### test url
